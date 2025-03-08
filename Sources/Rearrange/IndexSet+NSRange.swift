@@ -13,12 +13,24 @@ public extension IndexSet {
         self.init(integersIn: Range<IndexSet.Element>(range)!)
     }
 
+	init(_ range: NSRange) {
+		self.init(integersIn: range)
+	}
+
+	init(ranges: [NSRange]) {
+		self.init()
+
+		insert(ranges: ranges)
+	}
+
     mutating func insert(range: NSRange) {
         insert(integersIn: Range<IndexSet.Element>(range)!)
     }
 
     mutating func insert(ranges: [NSRange]) {
-        ranges.forEach { insert(range: $0) }
+		for range in ranges {
+			insert(range: range)
+		}
     }
 
     mutating func remove(integersIn range: NSRange) {

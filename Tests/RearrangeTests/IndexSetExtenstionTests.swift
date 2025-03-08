@@ -8,7 +8,17 @@
 
 import XCTest
 
-class IndexSetExtenstionTests: XCTestCase {
+final class IndexSetExtenstionTests: XCTestCase {
+	func testInitialization() {
+		let setA = IndexSet(integersIn: NSRange(0..<5))
+		let setB = IndexSet(NSRange(0..<5))
+		let setC = IndexSet(arrayLiteral: 0, 1, 2, 3, 4)
+
+		XCTAssertEqual(setA, setB)
+		XCTAssertEqual(setA, setC)
+		XCTAssertEqual(setB, setC)
+	}
+
     func testSpanningRange() {
         var set = IndexSet()
 
@@ -42,6 +52,13 @@ class IndexSetExtenstionTests: XCTestCase {
 
         XCTAssertEqual(set, IndexSet(integersIn: NSRange(location: 0, length: 5)))
     }
+
+	func testRangesInitializer() {
+		let ranges = [NSRange(0..<5), NSRange(5..<10)]
+		let set = IndexSet(ranges: ranges)
+
+		XCTAssertEqual(set, IndexSet(integersIn: 0..<10))
+	}
 
     func testIntersets() {
         var set = IndexSet()

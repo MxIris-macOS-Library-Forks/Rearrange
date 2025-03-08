@@ -1,10 +1,19 @@
+<div align="center">
+
 [![Build Status][build status badge]][build status]
 [![Platforms][platforms badge]][platforms]
 [![Documentation][documentation badge]][documentation]
+[![Matrix][matrix badge]][matrix]
+
+</div>
 
 # Rearrange
 
-Rearrange is a collection of utilities for making it easier to work with `NSRange` and `NSTextRange`. It's particularly handy when used with the Cocoa text system.
+Rearrange is a collection of utilities for making it easier to work with `NSRange`, `IndexSet`, and `String.Index`.
+
+If you need to work with `NSTextRange`/`UITextRange` or just TextKit in general, check out [Glyph][].
+
+[Glyph]: https://github.com/chimeHQ/Glyph 
 
 ## Integration
 
@@ -22,7 +31,7 @@ dependencies: [
 
 This is a struct that encapsulates a single change to an `NSRange`. It's useful for serializing, queuing, or otherwise storing changes and applying them.
 
-You can also use this class to tranform individual points or other `NSRange`s. This is handy for updating a set of stored `NSRange`s as text is changed. This might seem easy, but there are a large number of edge cases that `RangeMutation` handles, including mutations that invalidate (for example completely delete) a range. 
+You can also use this class to tranform locations, `NSRange`, or even an `IndexSet`. This is handy for updating values as text is changed. This might seem easy, but there are a large number of edge cases that `RangeMutation` handles, including mutations that invalidate (for example completely delete) a range. 
 
 ## Extensions
 
@@ -43,32 +52,15 @@ func shifted(startBy delta: Int) -> NSRange?
 func clamped(to limit: Int) -> NSRange
 func apply(_ change: RangeMutation) -> NSRange?
 
-// creating
-init(_ textRange: NSTextRange, provider: NSTextElementProvider)
-init?(_ textRange: UITextRange, textView: UITextView)
-
 // working with Swift String
 func range(in string: String) -> Range<String.Index>?
-```
-
-**NSTextRange**
-
-```swift
-// creating
-convenience init?(_ range: NSRange, provider: NSTextElementProvider)
-convenience init?(_ offset: Int, provider: NSTextElementProvider)
-```
-
-**UITextRange**
-
-```swift
-// creating
-convenience init?(_ range: NSRange, provider: NSTextElementProvider)
 ```
 
 **IndexSet**
 
 ```swift
+init(integersIn range: NSRange)
+init(ranges: [NSRange])
 mutating func insert(range: NSRange)
 mutating func insert(ranges: [NSRange])
 mutating func remove(integersIn range: NSRange)
@@ -80,14 +72,14 @@ var limitSpanningRange: NSRange?
 
 **String**
 
-```Swift
+```swift
 subscript(range: Range<Int>) -> Substring?
 subscript(range: NSRange) -> Substring?
 ```
 
 ## Contributing and Collaboration
 
-I'd love to hear from you! Get in touch via an issue or pull request.
+I would love to hear from you! Issues or pull requests work great. Both a [Matrix space][matrix] and [Discord][discord] are available for live help, but I have a strong bias towards answering in the form of documentation. You can also find me on [mastodon](https://mastodon.social/@mattiem).
 
 I prefer collaboration, and would love to find ways to work together if you have a similar project.
 
@@ -101,3 +93,6 @@ By participating in this project you agree to abide by the [Contributor Code of 
 [platforms badge]: https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FChimeHQ%2FRearrange%2Fbadge%3Ftype%3Dplatforms
 [documentation]: https://swiftpackageindex.com/ChimeHQ/Rearrange/main/documentation
 [documentation badge]: https://img.shields.io/badge/Documentation-DocC-blue
+[matrix]: https://matrix.to/#/%23chimehq%3Amatrix.org
+[matrix badge]: https://img.shields.io/matrix/chimehq%3Amatrix.org?label=Matrix
+[discord]: https://discord.gg/esFpX6sErJ
